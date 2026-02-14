@@ -1,20 +1,356 @@
 <!doctype html>
-<html lang="th">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valentine's Day Surprise 💕</title>
-    
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- Canvas Confetti CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script type="module" crossorigin src="/14foryou/assets/index-C48qv71y.js"></script>
-    <link rel="stylesheet" crossorigin href="/14foryou/assets/index-CfPOokCV.css">
+    <title>Google</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --text-primary: #202124;
+        --text-link: #1f1f1f;
+        --blue: #1a73e8;
+        --search-border: #dfe1e5;
+        --shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        --btn-bg: #f8f9fa;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        color: var(--text-primary);
+        background: #fff;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .top-nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        font-size: 13px;
+        line-height: 24px;
+      }
+
+      .top-nav a {
+        color: var(--text-link);
+      }
+
+      .top-nav a:hover {
+        text-decoration: underline;
+      }
+
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #5f6368;
+        cursor: pointer;
+      }
+
+      .icon-btn:hover {
+        background: #f0f0f0;
+      }
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #1a73e8;
+        color: #fff;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-68px);
+        padding: 0 20px;
+      }
+
+      .logo {
+        margin-bottom: 26px;
+      }
+
+      .logo img {
+        display: block;
+        width: 272px;
+        height: 92px;
+      }
+
+      .search-box {
+        width: min(584px, 100%);
+      }
+
+      .search-input-wrap {
+        height: 46px;
+        border: 1px solid var(--search-border);
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        padding: 0 14px;
+        gap: 12px;
+      }
+
+      .search-input-wrap:hover,
+      .search-input-wrap:focus-within {
+        border-color: transparent;
+        box-shadow: var(--shadow);
+      }
+
+      .search-icon {
+        width: 20px;
+        height: 20px;
+        color: #9aa0a6;
+        flex-shrink: 0;
+      }
+
+      .search-input {
+        border: none;
+        outline: none;
+        flex: 1;
+        font-size: 16px;
+        color: var(--text-primary);
+      }
+
+      .right-icons {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .mic-icon,
+      .lens-icon {
+        width: 24px;
+        height: 24px;
+        display: block;
+      }
+
+      .actions {
+        margin-top: 28px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .actions button {
+        border: 1px solid var(--btn-bg);
+        background: var(--btn-bg);
+        border-radius: 4px;
+        color: #3c4043;
+        font-size: 14px;
+        padding: 0 16px;
+        height: 36px;
+        cursor: pointer;
+      }
+
+      .actions button:hover {
+        border-color: #dadce0;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer {
+        background: #f2f2f2;
+        color: #70757a;
+        font-size: 14px;
+      }
+
+      .footer-location {
+        padding: 15px 30px;
+        border-bottom: 1px solid #dadce0;
+      }
+
+      .footer-links {
+        padding: 0 20px;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .footer-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      .footer-group a:hover {
+        text-decoration: underline;
+      }
+
+      .valentine-mode {
+        display: none;
+      }
+
+      @media (max-width: 640px) {
+        .main {
+          transform: translateY(-36px);
+        }
+
+        .footer-links {
+          justify-content: center;
+          padding: 12px 20px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="search-page" class="page">
+      <header class="top-nav">
+        <a href="#">Gmail</a>
+        <a href="#">Images</a>
+        <button type="button" class="icon-btn" aria-label="Google apps">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="5" cy="5" r="2"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="19" cy="5" r="2"></circle>
+            <circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle>
+            <circle cx="5" cy="19" r="2"></circle><circle cx="12" cy="19" r="2"></circle><circle cx="19" cy="19" r="2"></circle>
+          </svg>
+        </button>
+        <button type="button" class="avatar" aria-label="Google Account">G</button>
+      </header>
+
+      <main class="main">
+        <div class="logo" aria-label="Google logo">
+          <img
+            src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+            alt="Google"
+            width="272"
+            height="92"
+          />
+        </div>
+
+        <form id="search-form" class="search-box" role="search" autocomplete="off">
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input id="search-input" class="search-input" name="q" aria-label="Search" autofocus />
+            <div class="right-icons">
+              <svg class="mic-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path fill="#4285F4" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/>
+                <path fill="#34A853" d="M17 11v1a5 5 0 0 1-10 0v-1H5v1a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12v-1h-2z"/>
+              </svg>
+              <svg class="lens-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 7h4l2-2h4v4l2 2v4h-4l-2 2H9v-4l-2-2V7z" stroke="#4285F4" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="2.3" fill="#4285F4"/>
+              </svg>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit">Google Search</button>
+            <button type="button" id="lucky-btn">I'm Feeling Lucky</button>
+          </div>
+        </form>
+      </main>
+
+      <footer class="footer">
+        <div class="footer-location">Thailand</div>
+        <div class="footer-links">
+          <div class="footer-group">
+            <a href="#">About</a>
+            <a href="#">Advertising</a>
+            <a href="#">Business</a>
+            <a href="#">How Search works</a>
+          </div>
+          <div class="footer-group">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Settings</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div id="root" class="valentine-mode"></div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const toValentine = params.get('page') === 'valentine';
+
+      function loadValentineApp() {
+        document.title = "Valentine's Day Surprise 💕";
+        document.getElementById('search-page').style.display = 'none';
+        document.getElementById('root').style.display = 'block';
+
+        const sweet = document.createElement('script');
+        sweet.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+        document.head.appendChild(sweet);
+
+        const confetti = document.createElement('script');
+        confetti.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
+        document.head.appendChild(confetti);
+
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.crossOrigin = '';
+        css.href = '/14foryou/assets/index-CfPOokCV.css';
+        document.head.appendChild(css);
+
+        const app = document.createElement('script');
+        app.type = 'module';
+        app.crossOrigin = '';
+        app.src = '/14foryou/assets/index-C48qv71y.js';
+        document.head.appendChild(app);
+      }
+
+      function routeToValentine(query) {
+        const next = new URL(window.location.href);
+        next.searchParams.set('page', 'valentine');
+        if (query) {
+          next.searchParams.set('q', query);
+        } else {
+          next.searchParams.delete('q');
+        }
+        window.location.href = next.toString();
+      }
+
+      if (toValentine) {
+        loadValentineApp();
+      } else if (params.get('q')) {
+        routeToValentine(params.get('q').trim());
+      } else {
+        const form = document.getElementById('search-form');
+        const input = document.getElementById('search-input');
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          routeToValentine(input.value.trim());
+        });
+
+        document.getElementById('lucky-btn').addEventListener('click', () => {
+          routeToValentine(input.value.trim());
+        });
+      }
+    </script>
   </body>
 </html>
