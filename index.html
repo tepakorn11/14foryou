@@ -302,25 +302,36 @@
         document.getElementById('search-page').style.display = 'none';
         document.getElementById('root').style.display = 'block';
 
-        const sweet = document.createElement('script');
-        sweet.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
-        document.head.appendChild(sweet);
+        // Check if we are in local dev (Vite)
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-        const confetti = document.createElement('script');
-        confetti.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
-        document.head.appendChild(confetti);
+        if (isLocal) {
+            console.log('Running in local dev mode');
+            //In local dev, we don't need to load assets manually if main.tsx is already loaded
+            // But main.tsx handles the rendering.
+            // We just need to ensure the root is visible (done above).
+        } else {
+            // Production Mode (GitHub Pages)
+            const sweet = document.createElement('script');
+            sweet.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
+            document.head.appendChild(sweet);
 
-        const css = document.createElement('link');
-        css.rel = 'stylesheet';
-        css.crossOrigin = '';
-        css.href = '/14foryou/assets/index-CfPOokCV.css';
-        document.head.appendChild(css);
+            const confetti = document.createElement('script');
+            confetti.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
+            document.head.appendChild(confetti);
 
-        const app = document.createElement('script');
-        app.type = 'module';
-        app.crossOrigin = '';
-        app.src = '/14foryou/assets/index-C48qv71y.js';
-        document.head.appendChild(app);
+            const css = document.createElement('link');
+            css.rel = 'stylesheet';
+            css.crossOrigin = '';
+            css.href = '/14foryou/assets/index-CfPOokCV.css';
+            document.head.appendChild(css);
+
+            const app = document.createElement('script');
+            app.type = 'module';
+            app.crossOrigin = '';
+            app.src = '/14foryou/assets/index-C48qv71y.js';
+            document.head.appendChild(app);
+        }
       }
 
       function routeToValentine(query) {
@@ -352,5 +363,6 @@
         });
       }
     </script>
+  <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
