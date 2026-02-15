@@ -31,7 +31,37 @@ const coupons = [
   },
 ];
 
+import Swal from 'sweetalert2';
+
 export function LoveCoupons() {
+  const handleUseCoupon = (coupon: typeof coupons[0]) => {
+    Swal.fire({
+      title: 'ใช้คูปองนี้เหรอ? 🎟️',
+      text: `คุณต้องการใช้ "${coupon.title}" ใช่ไหม?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#ff69b4',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ใช่! ใช้เลย! 💕',
+      cancelButtonText: 'เปลี่ยนใจ 😅'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Construct mailto link
+        const email = 'tepakornkam@gmail.com';
+        const subject = `ขอใช้สิทธิ์: ${coupon.title} 🎟️`;
+        const body = `ที่รัก,\n\nผมขอใช้สิทธิ์ "${coupon.title}" นะครับ!\n\nรายละเอียด: ${coupon.description}\n\nรักนะจุ๊บๆ 💕`;
+
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        Swal.fire(
+          'ส่งคำขอแล้ว! 💌',
+          'อย่าลืมกดส่งในอีเมลด้วยนะจ๊ะ!',
+          'success'
+        );
+      }
+    });
+  };
+
   return (
     <section className="py-16 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
@@ -41,14 +71,18 @@ export function LoveCoupons() {
             🎟️ Love Coupons 🎟️
           </h2>
           <p className="text-xl text-pink-400">
-            คูปองพิเศษสำหรับเธอเท่านั้น! ใช้ได้ตลอดชีพ~ 💕
+            คูปองพิเศษสำหรับเธอเท่านั้น! ใช้ได้ตลอดชีพ~ 💕 (กดที่คูปองเพื่อใช้สิทธิ์)
           </p>
         </div>
-        
+
         {/* Coupons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {coupons.map((coupon, index) => (
-            <div key={index} className="coupon-card p-6 text-center">
+            <div
+              key={index}
+              className="coupon-card p-6 text-center cursor-pointer transform hover:scale-105 transition-transform duration-300 hover:shadow-xl"
+              onClick={() => handleUseCoupon(coupon)}
+            >
               <div className="text-5xl mb-4">{coupon.icon}</div>
               <h3 className="text-xl font-bold text-pink-500 mb-2">{coupon.title}</h3>
               <p className="text-gray-600 text-sm mb-4">{coupon.description}</p>
@@ -58,7 +92,7 @@ export function LoveCoupons() {
             </div>
           ))}
         </div>
-        
+
         <p className="text-center text-pink-400 mt-8 text-lg">
           💕 คูปองทั้งหมดนี้ไม่มีวันหมดอายุ ใช้ได้ตลอดชีพ! 💕
         </p>
